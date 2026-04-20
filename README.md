@@ -5,7 +5,7 @@
 ---
 
 ## 🚀 The Interface
-![Nivesh Mitra Dashboard]([api.png))
+![Nivesh Mitra Dashboard]([[api.pn](https://getshared.com/d/fiiQjMNH)))
 *Nivesh Mitra: A premium glassmorphism dashboard for smart financial planning.*
 
 ---
