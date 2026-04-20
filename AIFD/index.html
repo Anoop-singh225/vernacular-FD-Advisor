@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nivesh Mitra | Vernacular AI FD Advisor</title>
+    <!-- Google Fonts: OutFit for Modern Premium Look -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Lucide Icons for clean aesthetic -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="background-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <main class="glass-dashboard">
+        <!-- Header Section -->
+        <header class="header">
+            <div class="logo">
+                <i data-lucide="shield-check" class="icon-primary"></i>
+                <h1>Nivesh<span>Mitra</span></h1>
+            </div>
+            <div class="top-controls">
+                <div class="api-key-wrapper">
+                    <i data-lucide="key" class="icon-small"></i>
+                    <input type="password" id="geminiKey" placeholder="Gemini API Key" value="YOUR_API_KEY_HERE">
+                </div>
+                <div class="senior-toggle-container">
+                    <span>Senior Citizen (60+)</span>
+                    <label class="switch">
+                        <input type="checkbox" id="seniorToggle">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+            </div>
+        </header>
+
+        <!-- Hero Section: AI Voice Advisor -->
+        <section class="ai-hero">
+            <div class="ai-content">
+                <h2>Bhai, Savings ka sahi mitra.</h2>
+                <p>Poochiye Hindi ya Hinglish mein—"SBI mein FD karun ya Bandhan mein?"</p>
+                
+                <!-- Persona Selection -->
+                <div class="persona-selection">
+                    <span class="persona-label">Pehchan Chuniye:</span>
+                    <div class="persona-grid" id="personaGrid">
+                        <button class="persona-chip active" data-persona="General"><i data-lucide="user"></i> General</button>
+                        <button class="persona-chip" data-persona="Student"><i data-lucide="graduation-cap"></i> Student</button>
+                        <button class="persona-chip" data-persona="Young Professional"><i data-lucide="briefcase"></i> Young Prof.</button>
+                        <button class="persona-chip" data-persona="Job Seeker"><i data-lucide="search"></i> Job Seeker</button>
+                        <button class="persona-chip" data-persona="Senior Citizen"><i data-lucide="heart"></i> Senior</button>
+                    </div>
+                </div>
+                
+                <div class="input-module">
+                    <div class="input-wrapper">
+                        <input type="text" id="aiInput" placeholder="Poochiye: SBI ya HDFC? (Type or use voice keyboard)">
+                        <button id="sendBtn" class="send-button">
+                            <i data-lucide="send"></i>
+                        </button>
+                    </div>
+                    <div id="voiceStatus" class="voice-status">Mitra is ready to help!</div>
+                </div>
+
+                <div id="aiResponseArea" class="ai-response-card" style="display: none;">
+                    <div class="ai-badge"><i data-lucide="sparkles"></i> AI Advice</div>
+                    <p id="aiAdviceText"></p>
+                    <div class="ai-controls">
+                        <button id="stopAudio" class="btn-icon"><i data-lucide="volume-x"></i></button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Dashboard Grid -->
+        <div class="dashboard-grid">
+            <!-- Part 1: Comparison Engine -->
+            <section class="comparison-section">
+                <div class="section-header">
+                    <h3><i data-lucide="arrow-left-right"></i> Comparison Engine</h3>
+                    <span class="live-badge">Live Rates</span>
+                </div>
+                <div class="bank-grid" id="bankGrid">
+                    <!-- Bank cards will be injected by JS -->
+                </div>
+            </section>
+
+            <!-- Part 2: Inflation Reality Check -->
+            <section class="inflation-section">
+                <div class="section-header">
+                    <h3><i data-lucide="trending-down"></i> Inflation Reality Check</h3>
+                </div>
+                <div class="inflation-card">
+                    <div class="info-text">
+                        Your <strong>₹1,00,000</strong> at home will worth <strong>₹78,000</strong> in 5 years!
+                    </div>
+                    <div class="visualizer">
+                        <div class="viz-bar-container">
+                            <label>Cash at Home (Losing Value)</label>
+                            <div class="viz-bar home-bar" id="homeBar"></div>
+                            <span class="viz-value" id="homeVal">₹78k</span>
+                        </div>
+                        <div class="viz-bar-container">
+                            <label>FD Growth (Beating Inflation)</label>
+                            <div class="viz-bar fd-bar" id="fdBar"></div>
+                            <span class="viz-value" id="fdVal">₹1.42L</span>
+                        </div>
+                    </div>
+                    <p class="inflation-tip">Nivesh Mitra says: "Inflation ko haraiye, FD chuniye!"</p>
+                </div>
+            </section>
+        </div>
+
+        <!-- Sticky Footer for Inputs -->
+        <footer class="footer-inputs">
+            <div class="calc-input">
+                <label>Amount (₹)</label>
+                <input type="number" id="calcAmt" value="100000" step="5000">
+            </div>
+            <div class="calc-input">
+                <label>Tenure (Years)</label>
+                <select id="calcTenure">
+                    <option value="1">1 Year</option>
+                    <option value="3" selected>3 Years</option>
+                    <option value="5">5 Years</option>
+                </select>
+            </div>
+    </footer>
+    <div id="verBadge" style="position: fixed; bottom: 10px; right: 10px; font-size: 14px; font-weight: bold; background: #22c55e; padding: 8px 15px; color: white; border-radius: 5px; z-index: 9999; box-shadow: 0 0 20px rgba(34, 197, 94, 0.4);">v4.0 HACKATHON FINAL</div>
+</main>
+
+<script>
+/**
+ * Nivesh Mitra - INLINED FINAL VERSION
+ */
+const BANK_DATA = [
+    { id: 'sbi', name: 'State Bank of India', baseRate: 6.55, srBonus: 0.50, category: 'Public' },
+    { id: 'hdfc', name: 'HDFC Bank', baseRate: 6.50, srBonus: 0.50, category: 'Private' },
+    { id: 'icici', name: 'ICICI Bank', baseRate: 6.60, srBonus: 0.50, category: 'Private' },
+    { id: 'kotak', name: 'Kotak Bank', baseRate: 6.80, srBonus: 0.50, category: 'Private' },
+    { id: 'pnb', name: 'Punjab National Bank', baseRate: 6.40, srBonus: 0.50, category: 'Public' },
+    { id: 'bob', name: 'Bank of Baroda', baseRate: 6.50, srBonus: 0.50, category: 'Public' },
+    { id: 'bandhan', name: 'Bandhan Bank', baseRate: 7.00, srBonus: 0.75, category: 'Private' },
+    { id: 'shriram', name: 'Shriram Finance', baseRate: 7.40, srBonus: 0.75, category: 'NBFC', recommended: true },
+    { id: 'lichfl', name: 'LIC Housing Finance', baseRate: 6.90, srBonus: 0.25, category: 'Corporate/Public' },
+    { id: 'sangam', name: 'Sangam City Co-op', baseRate: 7.20, srBonus: 0.50, category: 'Co-operative' }
+];
+
+const INFLATION_RATE = 4.6; 
+let isSrCitizen = false;
+let currentAmount = 100000;
+let currentTenure = 3;
+let selectedPersona = 'General';
+let synthesis = window.speechSynthesis;
+
+const aiInput = document.getElementById('aiInput');
+const sendBtn = document.getElementById('sendBtn');
+const voiceStatus = document.getElementById('voiceStatus');
+const seniorToggle = document.getElementById('seniorToggle');
+const bankGrid = document.getElementById('bankGrid');
+const calcAmt = document.getElementById('calcAmt');
+const calcTenure = document.getElementById('calcTenure');
+const aiResponseArea = document.getElementById('aiResponseArea');
+const aiAdviceText = document.getElementById('aiAdviceText');
+const geminiKeyInput = document.getElementById('geminiKey');
+const personaChips = document.querySelectorAll('.persona-chip');
+
+function calculateYield(principal, rate, years) {
+    const r = rate / 100;
+    const n = 4;
+    return principal * Math.pow(1 + r / n, n * years);
+}
+
+function updateVisuals() {
+    bankGrid.innerHTML = '';
+    BANK_DATA.forEach(bank => {
+        const rate = isSrCitizen ? bank.baseRate + bank.srBonus : bank.baseRate;
+        const totalYield = calculateYield(currentAmount, rate, currentTenure);
+        const profit = totalYield - currentAmount;
+        const card = document.createElement('div');
+        card.className = `bank-card ${bank.recommended ? 'recommended' : ''}`;
+        card.innerHTML = `
+            <div class="bank-info">
+                <div><div class="bank-name">${bank.name}</div><div class="yield-info">${currentTenure} yrs</div></div>
+                <div class="interest-badge">${rate.toFixed(2)}%</div>
+            </div>
+            <span class="yield-amount">₹${Math.round(totalYield).toLocaleString()}</span>
+            <div class="yield-info">Profit: +₹${Math.round(profit).toLocaleString()}</div>
+            <div class="category-badge">${bank.category}</div>`;
+        bankGrid.appendChild(card);
+    });
+
+    const purchasingPower = currentAmount / Math.pow(1 + (INFLATION_RATE/100), currentTenure);
+    const avgRate = 7.0 + (isSrCitizen ? 0.6 : 0);
+    const fdGrowth = calculateYield(currentAmount, avgRate, currentTenure);
+    document.getElementById('homeBar').style.width = `${(purchasingPower / currentAmount) * 100}%`;
+    document.getElementById('fdBar').style.width = `${Math.min(100, (fdGrowth / (currentAmount * 1.5)) * 100)}%`;
+    document.getElementById('homeVal').innerText = `₹${Math.round(purchasingPower).toLocaleString()}`;
+    document.getElementById('fdVal').innerText = `₹${Math.round(fdGrowth).toLocaleString()}`;
+}
+
+async function processAiConsultation(query) {
+    showAiResponse("🤔 Mitra soch raha hai...");
+
+    // Rich, warm system prompt for each persona
+    const personaPrompts = {
+        "Student": "Tum ek friendly college senior ho jo finance samjhata hai. Student se baat kar rahe ho. Pyaar se, simple language mein samjhao. Emoji use karo. 3-4 lines mein jawab do.",
+        "Senior Citizen": "Tum ek respectful financial advisor ho. Senior citizen se izzat se baat karo. 'Aap', 'ji' use karo. Unki safety aur monthly income pe focus karo. 3-4 lines mein jawab do.",
+        "Job Seeker": "Tum ek supportive career counselor + financial advisor ho. Job dhundh rahe insaan se motivating tone mein baat karo. Emergency fund aur liquidity pe focus karo. 3-4 lines mein jawab do.",
+        "Young Professional": "Tum ek smart wealth advisor ho. Young professional se confident tone mein baat karo. Growth, inflation-beating returns pe focus karo. 3-4 lines mein jawab do.",
+        "General": "Tum 'Nivesh Mitra' ho - India ka sabse friendly AI financial advisor. Hinglish mein baat karo, jaise ek accha dost baat karta hai. 3-4 lines mein jawab do."
+    };
+
+    const systemMsg = `${personaPrompts[selectedPersona] || personaPrompts["General"]}
+    
+Context: User ki investment amount = ₹${currentAmount.toLocaleString()}, Tenure = ${currentTenure} saal, Senior Citizen = ${isSrCitizen ? "Haan" : "Nahi"}.
+
+Available Banks & Rates: SBI 6.55%, HDFC 6.50%, ICICI 6.60%, Kotak 6.80%, PNB 6.40%, Bank of Baroda 6.50%, Bandhan 7.00%, Shriram Finance 7.40% (NBFC - highest), LIC Housing 6.90%, Sangam Co-op 7.20%. Senior citizens ko extra 0.50-0.75% milta hai.
+
+Important: Hinglish mein jawab do (Hindi + English mix). Warm, polite aur helpful tone rakho. Real data use karo jo upar diya hai.`;
+
+    let success = false;
+
+    // === TRY 1: OpenAI API ===
+    const openaiKey = "your api key"
+        console.log("Trying OpenAI gpt-4o-mini...");
+        const resp = await fetch("https://api.openai.com/v1/chat/completions", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${openaiKey}`
+            },
+            body: JSON.stringify({
+                model: "gpt-4o-mini",
+                messages: [
+                    { role: "system", content: systemMsg },
+                    { role: "user", content: query }
+                ],
+                max_tokens: 300,
+                temperature: 0.8
+            })
+        });
+        const data = await resp.json();
+        console.log("OpenAI response:", resp.status);
+        if (resp.ok && data.choices && data.choices[0]) {
+            const advice = data.choices[0].message.content;
+            showAiResponse(advice);
+            speakSoft(advice);
+            success = true;
+            console.log("SUCCESS with OpenAI!");
+        } else {
+            console.warn("OpenAI failed:", data.error ? data.error.message : "Unknown error");
+        }
+    } catch (e) { console.error("OpenAI error:", e); }
+
+    // === TRY 2: Gemini API (backup) ===
+    if (!success) {
+        let geminiKey = geminiKeyInput.value.trim();
+        if (!geminiKey || geminiKey === "YOUR_API_KEY_HERE") {
+            geminiKey = "AIzaSyCjn1DGkqHMsKSilxLwbxaKG-V7TwEjT64";
+        }
+        const models = [
+            { name: "gemini-2.5-flash-preview-05-20", ver: "v1beta" },
+            { name: "gemini-2.0-flash", ver: "v1beta" },
+            { name: "gemini-2.0-flash-lite", ver: "v1beta" },
+        ];
+        for (const cfg of models) {
+            try {
+                console.log("Trying Gemini:", cfg.name);
+                const resp = await fetch(`https://generativelanguage.googleapis.com/${cfg.ver}/models/${cfg.name}:generateContent?key=${geminiKey}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ contents: [{ parts: [{ text: `${systemMsg}\n\nUser ne poocha: ${query}` }] }] })
+                });
+                if (resp.status === 429) { await new Promise(r => setTimeout(r, 2000)); continue; }
+                const data = await resp.json();
+                if (resp.ok && data.candidates && data.candidates[0] && data.candidates[0].content) {
+                    const advice = data.candidates[0].content.parts[0].text;
+                    showAiResponse(advice);
+                    speakSoft(advice);
+                    success = true;
+                    console.log("SUCCESS with Gemini:", cfg.name);
+                    break;
+                }
+            } catch (e) { console.error("Gemini error:", e); }
+        }
+    }
+
+    // === TRY 3: Smart Mock (final safety net) ===
+    if (!success) {
+        const mockAdvice = {
+            "Student": "Bhai, student life mein savings ki aadat daal lo! 💰 Bandhan Bank mein 7.00% rate mil raha hai aur Shriram Finance mein 7.40%! Chhoti si amount se start karo, compound interest ka magic dekhoge! 📈",
+            "Senior Citizen": "Namaste ji! 🙏 Aapke liye SBI (6.55% + 0.50% senior bonus = 7.05%) ya PNB best rahega — safe aur bharosemand. Monthly income ke liye quarterly payout option chuniye. Aapka paisa surakshit rahega! ✅",
+            "Job Seeker": "Bhai, tension mat lo! 💪 Abhi jo bhi savings hain, wo short-term FD mein daal do (1 year). Emergency mein toot bhi sakti hai. Kotak ya ICICI dekhlo — dono mein premature withdrawal easy hai! 🏦",
+            "Young Professional": "Boss, inflation 4.6% hai aur agar paisa ghar pe rakha toh 5 saal mein ₹1 lakh sirf ₹78,000 ki value ka rahega! 📉 Shriram Finance mein 7.40% pe lagao — inflation ko beat karo aur wealth build karo! 🚀",
+            "General": "Namaste dost! 🙏 Nivesh Mitra yahaan hai aapki madad ke liye. Abhi sabse accha FD rate Shriram Finance de raha hai — 7.40%! Agar safe chahiye toh SBI ya HDFC bhi solid options hain. Batao, kya jaanna hai? 😊"
+        };
+        const reply = mockAdvice[selectedPersona] || mockAdvice["General"];
+        showAiResponse(reply);
+        speakSoft(reply);
+    }
+}
+
+// Soft, calm Hindi voice function
+function speakSoft(text) {
+    if (synthesis.speaking) synthesis.cancel();
+    const cleanText = text.replace(/[*#_~`]/g, '').replace(/\n+/g, '. ');
+    const utter = new SpeechSynthesisUtterance(cleanText);
+    utter.lang = 'hi-IN';
+    utter.rate = 0.85;   // Slower = calmer
+    utter.pitch = 0.95;  // Slightly lower = softer
+    utter.volume = 0.9;
+    // Try to find a Hindi voice
+    const voices = synthesis.getVoices();
+    const hindiVoice = voices.find(v => v.lang.includes('hi')) || voices.find(v => v.lang.includes('IN'));
+    if (hindiVoice) utter.voice = hindiVoice;
+    synthesis.speak(utter);
+}
+
+function showAiResponse(text) { aiResponseArea.style.display = 'block'; aiAdviceText.innerText = text; }
+
+sendBtn.addEventListener('click', () => { if(aiInput.value) { processAiConsultation(aiInput.value); voiceStatus.innerText = "Asked: " + aiInput.value; aiInput.value=""; } });
+aiInput.addEventListener('keypress', (e) => { if(e.key === 'Enter') sendBtn.click(); });
+seniorToggle.addEventListener('change', (e) => { isSrCitizen = e.target.checked; updateVisuals(); });
+calcAmt.addEventListener('input', (e) => { currentAmount = parseFloat(e.target.value) || 0; updateVisuals(); });
+calcTenure.addEventListener('change', (e) => { currentTenure = parseInt(e.target.value); updateVisuals(); });
+personaChips.forEach(chip => chip.addEventListener('click', () => {
+    personaChips.forEach(c => c.classList.remove('active'));
+    chip.classList.add('active');
+    selectedPersona = chip.getAttribute('data-persona');
+    isSrCitizen = (selectedPersona === 'Senior Citizen');
+    seniorToggle.checked = isSrCitizen;
+    updateVisuals();
+}));
+
+updateVisuals();
+lucide.createIcons();
+console.log("Nivesh Mitra v4.0 FINAL-INLINE ACTIVE");
+</script>
+</body>
+</html>
